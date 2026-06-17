@@ -50,7 +50,7 @@ def system_status():
         services.append({
             "name": name,
             "active": active,
-            "pid": pid if pid != "0" else None,
+            "pid": int(pid) if pid and pid != "0" else None,
             "uptime_seconds": uptime_seconds,
             "restarts": int(props.get("NRestarts", 0)),
         })
