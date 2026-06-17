@@ -8,6 +8,7 @@ import { Agents }      from "./components/Agents.js";
 import { OrgChart }    from "./components/OrgChart.js";
 import { Workflows }   from "./components/Workflows.js";
 import { History }     from "./components/History.js";
+import { System }      from "./components/System.js";
 import { useDashboard } from "./hooks/useDashboard.js";
 
 const h = React.createElement;
@@ -32,6 +33,7 @@ function App() {
     if (activeTab === "orgchart") return React.createElement(OrgChart, { data, activeAgents: data?.active_agents || [] });
     if (activeTab === "workflows") return React.createElement(Workflows, { data });
     if (activeTab === "history") return React.createElement(History, { data });
+    if (activeTab === "system") return React.createElement(System, {});
     return h(Placeholder, { name: activeTab });
   }
 
