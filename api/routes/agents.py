@@ -93,7 +93,7 @@ def get_agent(name: str):
                 sum(c.latency_ms for c in calls) / len(calls), 1)
             stats["total_cost_usd"] = round(sum(c.cost_usd for c in calls), 6)
             last = max(calls, key=lambda c: c.timestamp)
-            stats["last_active"] = last.timestamp.isoformat()
+            stats["last_active"] = last.timestamp
     except Exception:
         pass
     return {
