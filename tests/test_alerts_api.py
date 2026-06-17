@@ -13,7 +13,8 @@ def test_list_rules_returns_defaults():
     assert len(rules) >= 5  # 5 default rules
 
 
-def test_create_rule():
+def test_create_rule(tmp_path, monkeypatch):
+    monkeypatch.setenv("ALERTS_FILE", str(tmp_path / "rules.json"))
     payload = {
         "label": "Test alert",
         "metric": "total_cost_usd",
