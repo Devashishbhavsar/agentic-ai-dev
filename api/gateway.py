@@ -18,6 +18,7 @@ from core.model_router import ModelRouter
 from core.memory.short_term import SessionMemory
 from core.memory.semantic_cache import SemanticCache
 from core.runtime import get_runtime_monitor
+from api.routes.agents import router as agents_router
 
 
 app = FastAPI(
@@ -42,6 +43,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(agents_router)
 
 # Shared instances
 _router = ModelRouter()
