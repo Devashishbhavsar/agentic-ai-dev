@@ -21,6 +21,7 @@ from core.runtime import get_runtime_monitor
 from api.routes.agents import router as agents_router
 from api.routes.system import router as system_router
 from api.routes.alerts import router as alerts_router
+from api.routes.analytics import router as analytics_router
 
 
 app = FastAPI(
@@ -49,6 +50,7 @@ app.add_middleware(
 app.include_router(agents_router)
 app.include_router(system_router)
 app.include_router(alerts_router)
+app.include_router(analytics_router)
 
 # Shared instances
 _router = ModelRouter()

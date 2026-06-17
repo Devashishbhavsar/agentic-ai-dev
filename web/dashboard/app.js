@@ -10,6 +10,7 @@ import { Workflows }  from "./components/Workflows.js";
 import { History }    from "./components/History.js";
 import { System }     from "./components/System.js";
 import { Settings }   from "./components/Settings.js";
+import { Analytics }  from "./components/Analytics.js";
 import { useDashboard } from "./hooks/useDashboard.js";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       case "orgchart":  return React.createElement(OrgChart,  { data, activeAgents: agents });
       case "workflows": return React.createElement(Workflows, { data });
       case "history":   return React.createElement(History,   { data });
+      case "analytics": return React.createElement(Analytics, {});
       case "system":    return React.createElement(System,    {});
       case "settings":  return React.createElement(Settings,  {});
       default:          return null;

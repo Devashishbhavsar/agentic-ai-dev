@@ -9,6 +9,7 @@ const TABS = [
   { id: "orgchart",   label: "Org Chart" },
   { id: "workflows",  label: "Workflows" },
   { id: "history",    label: "History" },
+  { id: "analytics",  label: "Analytics" },
   { id: "system",     label: "System" },
   { id: "settings",   label: "Settings" },
 ];
