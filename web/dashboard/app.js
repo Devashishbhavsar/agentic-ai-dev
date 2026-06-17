@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import { StatusBar } from "./components/StatusBar.js";
 import { TabNav }    from "./components/TabNav.js";
 import { Overview }    from "./components/Overview.js";
+import { Agents }      from "./components/Agents.js";
 import { useDashboard } from "./hooks/useDashboard.js";
 
 const h = React.createElement;
@@ -24,6 +25,7 @@ function App() {
 
   function renderTab() {
     if (activeTab === "overview") return React.createElement(Overview, { data });
+    if (activeTab === "agents") return React.createElement(Agents, { activeAgents: data?.active_agents || [] });
     return h(Placeholder, { name: activeTab });
   }
 
