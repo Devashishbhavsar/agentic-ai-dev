@@ -1,0 +1,40 @@
+platform:
+  name: openclaw-enterprise-agent
+  version: "0.1.0"
+
+models:
+  # Tier assignments — model router uses these
+  planning:     anthropic/claude-opus-4        # complex reasoning, task decomp
+  balanced:     anthropic/claude-sonnet-4-5      # most agent tasks
+  fast:         anthropic/claude-haiku-4-5       # cheap, high-volume calls
+  code:         openai/gpt-4.1              # code gen / review
+  long_context: google/gemini-2.5-pro        # >100k token context
+  cost_optimized: deepseek/deepseek-chat  # via OpenRouter
+
+  fallback_chain:
+    - anthropic/claude-sonnet-4-5
+    - openai/gpt-4.1
+    - deepseek/deepseek-chat
+
+swarm:
+  max_parallel_agents: 8
+  consensus_threshold: 0.7   # fraction of agents that must agree
+  queen_model: anthropic/claude-opus-4
+
+memory:
+  short_term_ttl: 3600        # seconds
+  vector_store: lancedb
+  embedding_model: text-embedding-3-small
+  semantic_cache_ttl: 86400   # 24h
+
+pipelines:
+  bi:
+    approval_required: true
+    approval_threshold: high_risk
+  sw_delivery:
+    approval_required: true
+    approval_threshold: production
+
+observability:
+  prometheus_port: 9090
+  otel_service_name: openclaw-enterprise-agent

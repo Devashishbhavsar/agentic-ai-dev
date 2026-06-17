@@ -1,0 +1,171 @@
+<h2>What does the Overview tab show?</h2>
+<p class="subtitle">This is the first thing you see — pick what matters most at a glance</p>
+
+<div class="cards">
+
+  <!-- Option A: KPIs + Activity + Board -->
+  <div class="card" data-choice="kpi-board" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:10px;border-radius:6px;font-family:system-ui;font-size:8px">
+      <!-- Top nav -->
+      <div style="display:flex;gap:2px;margin-bottom:8px;border-bottom:1px solid #e2e8f0;padding-bottom:5px">
+        <span style="color:#6366f1;padding:2px 7px;border-bottom:2px solid #6366f1;font-weight:600">Overview</span>
+        <span style="color:#64748b;padding:2px 7px">Agents</span>
+        <span style="color:#64748b;padding:2px 7px">Workflows</span>
+        <span style="color:#64748b;padding:2px 7px">History</span>
+      </div>
+      <!-- KPI strip -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:7px">
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:5px;text-align:center">
+          <div style="color:#64748b;font-size:7px">WORKFLOWS</div>
+          <div style="font-size:14px;font-weight:700;color:#0f172a">3</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:5px;text-align:center">
+          <div style="color:#64748b;font-size:7px">AGENTS BUSY</div>
+          <div style="font-size:14px;font-weight:700;color:#0f172a">8</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:5px;text-align:center">
+          <div style="color:#64748b;font-size:7px">COST TODAY</div>
+          <div style="font-size:14px;font-weight:700;color:#0f172a">$0.19</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:5px;text-align:center">
+          <div style="color:#64748b;font-size:7px">MODEL CALLS</div>
+          <div style="font-size:14px;font-weight:700;color:#0f172a">47</div>
+        </div>
+      </div>
+      <!-- 2-col: workflow board + live feed -->
+      <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:6px">
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:6px">
+          <div style="color:#0f172a;font-weight:600;margin-bottom:5px">Active Workflows</div>
+          <div style="border-left:3px solid #6366f1;padding-left:6px;margin-bottom:4px">
+            <div style="color:#0f172a">Show Q1 revenue by region</div>
+            <div style="color:#94a3b8;font-size:7px">bi · 4 agents · running</div>
+          </div>
+          <div style="border-left:3px solid #10b981;padding-left:6px">
+            <div style="color:#0f172a">Deploy hotfix to staging</div>
+            <div style="color:#94a3b8;font-size:7px">devops · 2 agents · running</div>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:6px">
+          <div style="color:#0f172a;font-weight:600;margin-bottom:5px">Live Events</div>
+          <div style="color:#16a34a;margin-bottom:3px">● agent_finished · bi</div>
+          <div style="color:#6366f1;margin-bottom:3px">● model_call · qa</div>
+          <div style="color:#f59e0b;margin-bottom:3px">● workflow_started</div>
+          <div style="color:#94a3b8">● agent_started · sw_eng</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>KPIs + Workflows + Live Feed <span style="font-size:11px;color:#6366f1;font-weight:400;margin-left:6px">⭐ Recommended</span></h3>
+      <p>4 KPI numbers up top. Below: active workflows on the left, live event stream on the right. You see what's running and what just happened simultaneously.</p>
+    </div>
+  </div>
+
+  <!-- Option B: KPIs + Swarm health mini-cards + recent history -->
+  <div class="card" data-choice="kpi-swarm-health" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:10px;border-radius:6px;font-family:system-ui;font-size:8px">
+      <div style="display:flex;gap:2px;margin-bottom:8px;border-bottom:1px solid #e2e8f0;padding-bottom:5px">
+        <span style="color:#6366f1;padding:2px 7px;border-bottom:2px solid #6366f1;font-weight:600">Overview</span>
+        <span style="color:#64748b;padding:2px 7px">Agents</span>
+        <span style="color:#64748b;padding:2px 7px">Workflows</span>
+      </div>
+      <!-- KPI strip -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:7px">
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:5px;text-align:center">
+          <div style="color:#64748b;font-size:7px">WORKFLOWS</div>
+          <div style="font-size:14px;font-weight:700;color:#0f172a">3</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:5px;text-align:center">
+          <div style="color:#64748b;font-size:7px">AGENTS BUSY</div>
+          <div style="font-size:14px;font-weight:700;color:#0f172a">8</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:5px;text-align:center">
+          <div style="color:#64748b;font-size:7px">COST TODAY</div>
+          <div style="font-size:14px;font-weight:700;color:#0f172a">$0.19</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:5px;text-align:center">
+          <div style="color:#64748b;font-size:7px">MODEL CALLS</div>
+          <div style="font-size:14px;font-weight:700;color:#0f172a">47</div>
+        </div>
+      </div>
+      <!-- Swarm health mini-row -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:7px">
+        <div style="background:#fff;border:1px solid #e2e8f0;border-top:2px solid #6366f1;border-radius:5px;padding:4px">
+          <div style="font-weight:600;color:#0f172a">BI</div>
+          <div style="color:#16a34a">● 2 active</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-top:2px solid #f59e0b;border-radius:5px;padding:4px">
+          <div style="font-weight:600;color:#0f172a">QA</div>
+          <div style="color:#94a3b8">idle</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-top:2px solid #10b981;border-radius:5px;padding:4px">
+          <div style="font-weight:600;color:#0f172a">DevOps</div>
+          <div style="color:#16a34a">● 1 active</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-top:2px solid #ec4899;border-radius:5px;padding:4px">
+          <div style="font-weight:600;color:#0f172a">SW Eng</div>
+          <div style="color:#94a3b8">idle</div>
+        </div>
+      </div>
+      <!-- Recent runs -->
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:6px">
+        <div style="color:#0f172a;font-weight:600;margin-bottom:4px">Recent Runs</div>
+        <div style="display:flex;justify-content:space-between;color:#64748b;padding:2px 0;border-bottom:1px solid #f1f5f9">
+          <span>Show Q1 revenue…</span><span style="color:#16a34a">success</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;color:#64748b;padding:2px 0">
+          <span>Hello what can you do</span><span style="color:#16a34a">success</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>KPIs + Swarm Health + History</h3>
+      <p>4 KPIs, then a mini swarm-status strip showing which teams are active right now, then recent run history below. Better for monitoring team-level health.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Full-width workflow pipeline view -->
+  <div class="card" data-choice="pipeline-focus" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:10px;border-radius:6px;font-family:system-ui;font-size:8px">
+      <div style="display:flex;gap:2px;margin-bottom:8px;border-bottom:1px solid #e2e8f0;padding-bottom:5px">
+        <span style="color:#6366f1;padding:2px 7px;border-bottom:2px solid #6366f1;font-weight:600">Overview</span>
+        <span style="color:#64748b;padding:2px 7px">Agents</span>
+        <span style="color:#64748b;padding:2px 7px">Workflows</span>
+      </div>
+      <!-- Metric strip compact -->
+      <div style="display:flex;gap:10px;margin-bottom:8px;padding:5px 8px;background:#fff;border:1px solid #e2e8f0;border-radius:5px">
+        <span><b style="color:#0f172a">3</b> <span style="color:#94a3b8">workflows</span></span>
+        <span><b style="color:#0f172a">8</b> <span style="color:#94a3b8">agents</span></span>
+        <span><b style="color:#0f172a">$0.19</b> <span style="color:#94a3b8">cost</span></span>
+        <span><b style="color:#16a34a">●</b> <span style="color:#94a3b8">live</span></span>
+      </div>
+      <!-- Pipeline flow -->
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:6px;margin-bottom:5px">
+        <div style="color:#0f172a;font-weight:600;margin-bottom:5px">Show Q1 revenue by region  <span style="color:#16a34a;font-size:7px">● running</span></div>
+        <div style="display:flex;align-items:center;gap:3px">
+          <div style="background:#dcfce7;border-radius:3px;padding:2px 5px;color:#16a34a;font-size:7px">requirements ✓</div>
+          <div style="color:#94a3b8">→</div>
+          <div style="background:#dcfce7;border-radius:3px;padding:2px 5px;color:#16a34a;font-size:7px">kpi_discovery ✓</div>
+          <div style="color:#94a3b8">→</div>
+          <div style="background:#eef2ff;border-radius:3px;padding:2px 5px;color:#6366f1;font-size:7px;animation:pulse 1s infinite">data_mapping…</div>
+          <div style="color:#94a3b8">→</div>
+          <div style="background:#f1f5f9;border-radius:3px;padding:2px 5px;color:#94a3b8;font-size:7px">exec_summary</div>
+        </div>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:6px">
+        <div style="color:#0f172a;font-weight:600;margin-bottom:5px">Deploy hotfix  <span style="color:#16a34a;font-size:7px">● running</span></div>
+        <div style="display:flex;align-items:center;gap:3px">
+          <div style="background:#dcfce7;border-radius:3px;padding:2px 5px;color:#16a34a;font-size:7px">infra ✓</div>
+          <div style="color:#94a3b8">→</div>
+          <div style="background:#eef2ff;border-radius:3px;padding:2px 5px;color:#6366f1;font-size:7px">docker…</div>
+          <div style="color:#94a3b8">→</div>
+          <div style="background:#f1f5f9;border-radius:3px;padding:2px 5px;color:#94a3b8;font-size:7px">kubernetes</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Pipeline Flow View</h3>
+      <p>Compact KPI bar, then each active workflow shown as a pipeline: agent → agent → agent, with completed steps green and current step pulsing. Best for tracking exactly which agent is running right now.</p>
+    </div>
+  </div>
+
+</div>

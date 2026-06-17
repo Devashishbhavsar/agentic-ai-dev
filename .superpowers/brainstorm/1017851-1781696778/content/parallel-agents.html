@@ -1,0 +1,147 @@
+<h2>How should parallel agents be shown?</h2>
+<p class="subtitle">When 4–6 agents run simultaneously on a workflow — how do you want to see them?</p>
+
+<div class="cards">
+
+  <!-- Option A: Timeline lanes (Gantt-style) -->
+  <div class="card" data-choice="gantt" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:10px;border-radius:6px;font-family:system-ui;font-size:8px">
+      <div style="color:#0f172a;font-weight:600;margin-bottom:6px">Show Q1 revenue by region <span style="color:#16a34a;font-size:7px;margin-left:6px">● running · 12s</span></div>
+      <!-- Timeline -->
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:6px">
+        <!-- Header -->
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:4px;margin-bottom:5px">
+          <div style="color:#94a3b8;font-size:7px">AGENT</div>
+          <div style="display:flex;justify-content:space-between;color:#94a3b8;font-size:7px"><span>0s</span><span>10s</span><span>20s</span><span>30s</span></div>
+        </div>
+        <!-- Agent rows -->
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:4px;align-items:center;margin-bottom:3px">
+          <span style="color:#6366f1;font-size:7px">requirements</span>
+          <div style="background:#f1f5f9;border-radius:3px;height:12px;position:relative">
+            <div style="position:absolute;left:0;width:30%;background:#6366f1;border-radius:3px;height:100%;opacity:0.9"></div>
+            <div style="position:absolute;left:30%;top:50%;transform:translateY(-50%);font-size:6px;color:#64748b;margin-left:3px">✓ done</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:4px;align-items:center;margin-bottom:3px">
+          <span style="color:#6366f1;font-size:7px">kpi_discovery</span>
+          <div style="background:#f1f5f9;border-radius:3px;height:12px;position:relative">
+            <div style="position:absolute;left:28%;width:35%;background:#6366f1;border-radius:3px;height:100%;opacity:0.9"></div>
+            <div style="position:absolute;left:63%;top:50%;transform:translateY(-50%);font-size:6px;color:#64748b;margin-left:3px">✓ done</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:4px;align-items:center;margin-bottom:3px">
+          <span style="color:#f59e0b;font-size:7px;font-weight:600">data_mapping</span>
+          <div style="background:#f1f5f9;border-radius:3px;height:12px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:40%;width:30%;background:linear-gradient(90deg,#f59e0b,#fcd34d);border-radius:3px;height:100%;animation:shimmer 1s infinite"></div>
+            <div style="position:absolute;left:40%;top:50%;transform:translateY(-50%);font-size:6px;color:#b45309;margin-left:3px">● running</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:4px;align-items:center;margin-bottom:3px">
+          <span style="color:#10b981;font-size:7px;font-weight:600">data_quality</span>
+          <div style="background:#f1f5f9;border-radius:3px;height:12px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:40%;width:25%;background:linear-gradient(90deg,#10b981,#6ee7b7);border-radius:3px;height:100%;"></div>
+            <div style="position:absolute;left:40%;top:50%;transform:translateY(-50%);font-size:6px;color:#065f46;margin-left:3px">● parallel</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:80px 1fr;gap:4px;align-items:center">
+          <span style="color:#94a3b8;font-size:7px">exec_summary</span>
+          <div style="background:#f1f5f9;border-radius:3px;height:12px;position:relative">
+            <div style="position:absolute;left:0;top:50%;transform:translateY(-50%);font-size:6px;color:#94a3b8;margin-left:4px">waiting…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Timeline / Gantt Lanes <span style="font-size:11px;color:#6366f1;font-weight:400;margin-left:6px">⭐ Recommended</span></h3>
+      <p>Each agent gets a horizontal lane. Time flows left to right. Parallel agents show bars side-by-side. Completed = solid colour, running = animated pulse, waiting = grey. Instantly see who's parallel, who's blocked.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Live chat bubbles -->
+  <div class="card" data-choice="chat-bubbles" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:10px;border-radius:6px;font-family:system-ui;font-size:8px">
+      <div style="color:#0f172a;font-weight:600;margin-bottom:6px">Agent Collaboration Feed</div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:5px;padding:7px;display:flex;flex-direction:column;gap:5px">
+        <!-- Message bubbles -->
+        <div style="display:flex;gap:5px;align-items:flex-start">
+          <div style="background:#6366f1;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;flex-shrink:0">req</div>
+          <div style="background:#eef2ff;border-radius:0 6px 6px 6px;padding:4px 7px;max-width:80%">
+            <div style="color:#6366f1;font-size:7px;font-weight:600;margin-bottom:1px">requirements_agent</div>
+            <div style="color:#1e293b;font-size:7px">Extracted 3 goals: revenue by region, exec summary, QoQ trend</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:5px;align-items:flex-start">
+          <div style="background:#f59e0b;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;flex-shrink:0">kpi</div>
+          <div style="background:#fef9c3;border-radius:0 6px 6px 6px;padding:4px 7px;max-width:80%">
+            <div style="color:#b45309;font-size:7px;font-weight:600;margin-bottom:1px">kpi_discovery_agent</div>
+            <div style="color:#1e293b;font-size:7px">Found 6 matching KPIs. Passing to data_mapping + data_quality in parallel.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:5px;align-items:flex-start">
+          <div style="background:#10b981;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:700;flex-shrink:0">dm</div>
+          <div style="background:#d1fae5;border-radius:0 6px 6px 6px;padding:4px 7px;max-width:80%">
+            <div style="color:#065f46;font-size:7px;font-weight:600;margin-bottom:1px">data_mapping_agent <span style="color:#94a3b8;font-weight:400">● typing…</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Agent Chat Feed</h3>
+      <p>Each agent posts messages as it works — like a group chat. See what each agent is doing, what it passed to the next one. "Typing…" indicator for active agents. Real team feel.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Both side by side -->
+  <div class="card" data-choice="both-views" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:10px;border-radius:6px;font-family:system-ui;font-size:8px">
+      <div style="color:#0f172a;font-weight:600;margin-bottom:5px">Workflow Detail — two panels</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+        <!-- Left: Gantt mini -->
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:5px">
+          <div style="color:#64748b;font-size:7px;font-weight:600;margin-bottom:4px">TIMELINE</div>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <div style="display:flex;align-items:center;gap:3px">
+              <span style="font-size:6px;color:#6366f1;width:32px">req</span>
+              <div style="flex:1;background:#f1f5f9;border-radius:2px;height:8px;position:relative">
+                <div style="position:absolute;left:0;width:35%;background:#6366f1;height:100%;border-radius:2px"></div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:3px">
+              <span style="font-size:6px;color:#f59e0b;width:32px">kpi</span>
+              <div style="flex:1;background:#f1f5f9;border-radius:2px;height:8px;position:relative">
+                <div style="position:absolute;left:30%;width:40%;background:#f59e0b;height:100%;border-radius:2px"></div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:3px">
+              <span style="font-size:6px;color:#10b981;width:32px">map</span>
+              <div style="flex:1;background:#f1f5f9;border-radius:2px;height:8px;position:relative">
+                <div style="position:absolute;left:60%;width:25%;background:#10b981;height:100%;border-radius:2px;opacity:0.7"></div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:3px">
+              <span style="font-size:6px;color:#10b981;width:32px">qual</span>
+              <div style="flex:1;background:#f1f5f9;border-radius:2px;height:8px;position:relative">
+                <div style="position:absolute;left:60%;width:22%;background:#10b981;height:100%;border-radius:2px;opacity:0.7"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Right: Chat mini -->
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:5px">
+          <div style="color:#64748b;font-size:7px;font-weight:600;margin-bottom:4px">AGENT FEED</div>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <div style="background:#eef2ff;border-radius:3px;padding:3px 4px;font-size:6px;color:#4338ca">req: Extracted 3 goals</div>
+            <div style="background:#fef9c3;border-radius:3px;padding:3px 4px;font-size:6px;color:#92400e">kpi: Found 6 KPIs, forking…</div>
+            <div style="background:#d1fae5;border-radius:3px;padding:3px 4px;font-size:6px;color:#065f46">map: ● mapping data…</div>
+            <div style="background:#d1fae5;border-radius:3px;padding:3px 4px;font-size:6px;color:#065f46">qual: ● checking quality…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Timeline + Feed Side by Side</h3>
+      <p>Left panel: Gantt timeline showing who ran when. Right panel: agent message feed. See timing and content simultaneously. Best for debugging why a workflow took long or which agent sent what.</p>
+    </div>
+  </div>
+
+</div>

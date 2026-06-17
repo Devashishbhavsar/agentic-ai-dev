@@ -1,0 +1,78 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "openclaw-enterprise-agent"
+version = "0.1.0"
+description = "Enterprise multi-agent BI → deployment platform"
+requires-python = ">=3.11"
+dependencies = [
+    # LLM providers
+    "anthropic>=0.40.0",
+    "openai>=1.50.0",
+
+    # Agent framework
+    "langchain>=0.3.0",
+    "langchain-anthropic>=0.3.0",
+    "langchain-openai>=0.2.0",
+    "langchain-community>=0.3.0",
+    "langgraph>=0.2.0",
+
+    # Vector store / memory
+    "lancedb>=0.13.0",
+    "chromadb>=0.5.0",
+
+    # Data connectors
+    "sqlalchemy>=2.0",
+    "psycopg2-binary>=2.9",
+    "snowflake-sqlalchemy>=1.6",
+    "google-cloud-bigquery>=3.25",
+    "pandas>=2.2",
+    "openpyxl>=3.1",
+
+    # API / web
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "httpx>=0.28.0",
+    "websockets>=13.0",
+
+    # Data validation
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+
+    # Async
+    "anyio>=4.6",
+
+    # Observability
+    "opentelemetry-sdk>=1.27",
+    "opentelemetry-exporter-otlp>=1.27",
+    "langfuse>=2.0",
+    "prometheus-client>=0.21",
+
+    # Utilities
+    "python-dotenv>=1.0",
+    "rich>=13.9",
+    "structlog>=24.4",
+    "tenacity>=9.0",
+    "cachetools>=5.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "pytest-cov>=6.0",
+    "ruff>=0.7",
+    "mypy>=1.13",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

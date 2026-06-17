@@ -1,0 +1,1 @@
+{"response": "{\"response\": \"Hello! How can I help you today?\", \"intent\": {\"intent\": \"general\", \"pipeline\": \"none\", \"requires_approval\": false, \"risk_level\": \"low\", \"domain\": \"greeting\", \"sub_goals\": [\"respond to greeting\"], \"swarms_needed\": []}}", "ts": 1781695729.7941506}

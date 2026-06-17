@@ -1,0 +1,86 @@
+<h2>What should the dashboard feel like?</h2>
+<p class="subtitle">Pick the overall design direction — we'll refine details from here</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="ops-console" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0e1a;padding:16px;border-radius:6px;font-family:monospace">
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <div style="background:#63d6ff22;border:1px solid #63d6ff44;border-radius:4px;padding:4px 10px;font-size:10px;color:#63d6ff">LIVE</div>
+        <div style="background:#1a2035;border-radius:4px;padding:4px 10px;font-size:10px;color:#aaa">35 agents online</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
+        <div style="background:#111827;border:1px solid #1e2d40;border-radius:4px;padding:8px">
+          <div style="font-size:9px;color:#63d6ff;margin-bottom:4px">BI SWARM</div>
+          <div style="font-size:18px;color:#fff;font-weight:700">6</div>
+          <div style="font-size:9px;color:#666">agents</div>
+        </div>
+        <div style="background:#111827;border:1px solid #1e2d40;border-radius:4px;padding:8px">
+          <div style="font-size:9px;color:#a78bfa;margin-bottom:4px">QA SWARM</div>
+          <div style="font-size:18px;color:#fff;font-weight:700">7</div>
+          <div style="font-size:9px;color:#666">agents</div>
+        </div>
+        <div style="background:#111827;border:1px solid #1e2d40;border-radius:4px;padding:8px">
+          <div style="font-size:9px;color:#fbbf24;margin-bottom:4px">DEVOPS</div>
+          <div style="font-size:18px;color:#fff;font-weight:700">6</div>
+          <div style="font-size:9px;color:#666">agents</div>
+        </div>
+      </div>
+      <div style="height:3px;background:linear-gradient(90deg,#63d6ff,#a78bfa,#fbbf24,#34d399);border-radius:2px"></div>
+    </div>
+    <div class="card-body">
+      <h3>Ops Console <span style="font-size:11px;color:#63d6ff;font-weight:400;margin-left:6px">⭐ Recommended</span></h3>
+      <p>Dark command-center look. Each agent swarm gets its own panel. Dense data, color-coded by team. Feels like a real engineering operations tool.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="enterprise-light" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:16px;border-radius:6px;font-family:system-ui">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="font-size:12px;font-weight:700;color:#0f172a">OpenClaw Control</div>
+        <div style="background:#dcfce7;border-radius:12px;padding:3px 10px;font-size:10px;color:#16a34a;font-weight:600">● All systems go</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;box-shadow:0 1px 3px #0001">
+          <div style="font-size:9px;color:#64748b;text-transform:uppercase;letter-spacing:.05em">Active Workflows</div>
+          <div style="font-size:22px;color:#0f172a;font-weight:700">3</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;box-shadow:0 1px 3px #0001">
+          <div style="font-size:9px;color:#64748b;text-transform:uppercase;letter-spacing:.05em">Agents Running</div>
+          <div style="font-size:22px;color:#0f172a;font-weight:700">12</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Enterprise Light</h3>
+      <p>Clean white/light-grey layout. Professional SaaS look like Notion or Linear. Easier to read in a bright office. More accessible and polished.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="split-dark" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#12151e;padding:16px;border-radius:6px;font-family:system-ui">
+      <div style="display:flex;gap:0;height:80px;border-radius:4px;overflow:hidden">
+        <div style="background:#0f1729;width:30%;padding:8px;border-right:1px solid #1e2d40">
+          <div style="font-size:9px;color:#63d6ff;margin-bottom:6px">SWARMS</div>
+          <div style="font-size:9px;color:#ccc;padding:3px 6px;background:#1e2d40;border-radius:3px;margin-bottom:3px">● BI</div>
+          <div style="font-size:9px;color:#ccc;padding:3px 6px;border-radius:3px;margin-bottom:3px">● QA</div>
+          <div style="font-size:9px;color:#ccc;padding:3px 6px;border-radius:3px">● DevOps</div>
+        </div>
+        <div style="flex:1;padding:8px">
+          <div style="font-size:9px;color:#aaa;margin-bottom:6px">BI Swarm — 6 agents</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+            <div style="background:#1a2540;border-radius:3px;padding:4px 6px;font-size:9px;color:#63d6ff">requirements</div>
+            <div style="background:#1a2540;border-radius:3px;padding:4px 6px;font-size:9px;color:#63d6ff">kpi_discovery</div>
+            <div style="background:#1a2540;border-radius:3px;padding:4px 6px;font-size:9px;color:#aaa">data_mapping</div>
+            <div style="background:#1a2540;border-radius:3px;padding:4px 6px;font-size:9px;color:#aaa">data_quality</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Swarm Navigator</h3>
+      <p>Left panel = swarm list. Right panel = agents in selected swarm. Click a swarm to drill in. Best for exploring all 35 agents by team.</p>
+    </div>
+  </div>
+
+</div>

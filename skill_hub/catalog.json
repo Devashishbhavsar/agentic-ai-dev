@@ -1,0 +1,67 @@
+{
+  "_comment": "Maps every agent role and task type to its relevant skills. Agents query this at runtime to pick their skills.",
+
+  "roles": {
+    "requirements_agent":      ["writing-plans", "brainstorming", "executing-plans"],
+    "business_analyst":        ["brainstorming", "writing-plans", "duckdb-query", "writing-skills"],
+    "kpi_discovery":           ["duckdb-query", "brainstorming"],
+    "data_mapping":            ["duckdb-query", "systematic-debugging"],
+    "stakeholder":             ["writing-skills", "internal-comms", "doc-coauthoring"],
+    "source_discovery":        ["duckdb-query", "systematic-debugging"],
+    "etl":                     ["systematic-debugging", "duckdb-query", "verification-before-completion"],
+    "data_quality":            ["verification-before-completion", "systematic-debugging", "duckdb-query"],
+    "verification":            ["verification-before-completion", "systematic-debugging"],
+    "architect":               ["writing-plans", "subagent-driven-development", "dispatching-parallel-agents"],
+    "backend":                 ["test-driven-development", "systematic-debugging", "requesting-code-review"],
+    "security":                ["verification-before-completion", "systematic-debugging"],
+    "unit_test":               ["test-driven-development", "webapp-testing", "verification-before-completion"],
+    "integration_test":        ["test-driven-development", "webapp-testing", "systematic-debugging"],
+    "docker":                  ["systematic-debugging", "verification-before-completion"],
+    "kubernetes":              ["systematic-debugging", "verification-before-completion"],
+    "release_manager":         ["finishing-a-development-branch", "verification-before-completion", "writing-plans"],
+    "deployment":              ["finishing-a-development-branch", "verification-before-completion"],
+    "orchestrator":            ["dispatching-parallel-agents", "subagent-driven-development", "writing-plans", "executing-plans"],
+    "model_router":            ["systematic-debugging"],
+    "dashboard_gen":           ["canvas-design", "theme-factory", "xlsx", "writing-skills"],
+    "exec_summary":            ["writing-skills", "internal-comms", "doc-coauthoring", "pptx"],
+    "mcp_developer":           ["mcp-builder", "claude-api", "test-driven-development"],
+    "skill_author":            ["skill-creator", "template-skill", "writing-skills"]
+  },
+
+  "tasks": {
+    "debugging":               ["systematic-debugging"],
+    "code_review":             ["requesting-code-review", "receiving-code-review", "verification-before-completion"],
+    "testing":                 ["test-driven-development", "webapp-testing", "verification-before-completion"],
+    "analytics":               ["duckdb-query", "brainstorming"],
+    "kpi_analysis":            ["duckdb-query", "brainstorming", "writing-skills"],
+    "parallel_execution":      ["dispatching-parallel-agents", "using-git-worktrees"],
+    "planning":                ["writing-plans", "executing-plans", "brainstorming"],
+    "export_excel":            ["xlsx"],
+    "export_pdf":              ["pdf"],
+    "export_powerpoint":       ["pptx"],
+    "export_word":             ["docx"],
+    "reporting":               ["xlsx", "pdf", "pptx", "writing-skills"],
+    "dashboard":               ["canvas-design", "theme-factory", "web-artifacts-builder"],
+    "frontend_ui":             ["frontend-design", "canvas-design", "theme-factory", "web-artifacts-builder"],
+    "design":                  ["canvas-design", "brand-guidelines", "algorithmic-art", "theme-factory"],
+    "deployment":              ["finishing-a-development-branch", "using-git-worktrees"],
+    "communication":           ["writing-skills", "internal-comms", "doc-coauthoring"],
+    "mcp_building":            ["mcp-builder", "claude-api"],
+    "skill_creation":          ["skill-creator", "template-skill"],
+    "bi_pipeline":             ["duckdb-query", "brainstorming", "writing-plans", "xlsx", "verification-before-completion"],
+    "sw_delivery":             ["test-driven-development", "systematic-debugging", "requesting-code-review", "finishing-a-development-branch"],
+    "data_engineering":        ["duckdb-query", "systematic-debugging", "verification-before-completion"],
+    "quality_assurance":       ["verification-before-completion", "test-driven-development", "webapp-testing", "systematic-debugging"],
+    "orchestration":           ["dispatching-parallel-agents", "subagent-driven-development", "writing-plans"]
+  },
+
+  "swarms": {
+    "bi":        ["requirements_agent", "business_analyst", "kpi_discovery", "data_mapping", "stakeholder"],
+    "data_eng":  ["source_discovery", "etl", "data_quality"],
+    "ai_eng":    ["orchestrator", "model_router"],
+    "sw_eng":    ["architect", "backend", "security"],
+    "devops":    ["docker", "kubernetes"],
+    "qa":        ["unit_test", "integration_test", "verification"],
+    "release":   ["release_manager", "deployment"]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "openclaw-enterprise-agent",
+  "private": true,
+  "scripts": {
+    "build:dashboard": "node web/dashboard/build.mjs"
+  },
+  "dependencies": {
+    "@fontsource/fraunces": "^5.2.8",
+    "@fontsource/ibm-plex-mono": "^5.2.8",
+    "@fontsource/ibm-plex-sans": "^5.2.8",
+    "esbuild": "^0.28.1",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  }
+}

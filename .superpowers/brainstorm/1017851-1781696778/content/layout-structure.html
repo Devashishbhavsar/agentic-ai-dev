@@ -1,0 +1,115 @@
+<h2>How should the page be laid out?</h2>
+<p class="subtitle">Enterprise Light confirmed — now pick the overall page structure</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="top-nav" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;border-radius:6px;overflow:hidden;font-family:system-ui">
+      <!-- Top nav bar -->
+      <div style="background:#fff;border-bottom:1px solid #e2e8f0;padding:8px 14px;display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:11px;font-weight:700;color:#0f172a">OpenClaw</div>
+        <div style="display:flex;gap:12px">
+          <span style="font-size:9px;color:#6366f1;border-bottom:2px solid #6366f1;padding-bottom:2px">Overview</span>
+          <span style="font-size:9px;color:#64748b">Agents</span>
+          <span style="font-size:9px;color:#64748b">Workflows</span>
+          <span style="font-size:9px;color:#64748b">History</span>
+        </div>
+        <div style="background:#f0fdf4;border-radius:10px;padding:2px 8px;font-size:9px;color:#16a34a">● Live</div>
+      </div>
+      <!-- KPI row -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px 14px">
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;box-shadow:0 1px 2px #0001">
+          <div style="font-size:8px;color:#64748b">WORKFLOWS</div>
+          <div style="font-size:16px;font-weight:700;color:#0f172a">3</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;box-shadow:0 1px 2px #0001">
+          <div style="font-size:8px;color:#64748b">AGENTS BUSY</div>
+          <div style="font-size:16px;font-weight:700;color:#0f172a">12</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;box-shadow:0 1px 2px #0001">
+          <div style="font-size:8px;color:#64748b">COST TODAY</div>
+          <div style="font-size:16px;font-weight:700;color:#0f172a">$0.19</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px;box-shadow:0 1px 2px #0001">
+          <div style="font-size:8px;color:#64748b">MODEL CALLS</div>
+          <div style="font-size:16px;font-weight:700;color:#0f172a">47</div>
+        </div>
+      </div>
+      <!-- Content area hint -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px 10px">
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;height:50px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#94a3b8">Agent Grid</div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;height:50px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#94a3b8">Live Feed</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Top Navigation <span style="font-size:11px;color:#6366f1;font-weight:400;margin-left:6px">⭐ Recommended</span></h3>
+      <p>Tabs across the top: Overview · Agents · Workflows · History. Maximises vertical space for data. Familiar SaaS pattern — like GitHub or Linear.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="left-sidebar" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;border-radius:6px;overflow:hidden;font-family:system-ui;display:flex">
+      <!-- Sidebar -->
+      <div style="background:#fff;border-right:1px solid #e2e8f0;width:38%;padding:10px 8px">
+        <div style="font-size:10px;font-weight:700;color:#0f172a;margin-bottom:10px">OpenClaw</div>
+        <div style="font-size:9px;color:#6366f1;background:#eef2ff;border-radius:4px;padding:4px 8px;margin-bottom:2px">Overview</div>
+        <div style="font-size:9px;color:#64748b;padding:4px 8px;margin-bottom:2px">All Agents</div>
+        <div style="font-size:9px;color:#64748b;padding:4px 8px;margin-bottom-8px">Workflows</div>
+        <div style="margin-top:10px;padding-top:8px;border-top:1px solid #f1f5f9">
+          <div style="font-size:8px;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Swarms</div>
+          <div style="font-size:9px;color:#64748b;padding:3px 8px">● BI (6)</div>
+          <div style="font-size:9px;color:#64748b;padding:3px 8px">● QA (7)</div>
+          <div style="font-size:9px;color:#64748b;padding:3px 8px">● DevOps (6)</div>
+        </div>
+      </div>
+      <!-- Main -->
+      <div style="flex:1;padding:10px 8px">
+        <div style="font-size:9px;color:#0f172a;font-weight:600;margin-bottom:6px">Overview</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:6px">
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:6px;font-size:9px;color:#0f172a"><b>3</b> workflows</div>
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:6px;font-size:9px;color:#0f172a"><b>12</b> agents</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:4px;height:50px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#94a3b8">Live activity</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Left Sidebar</h3>
+      <p>Persistent sidebar with swarm drill-down. Click a swarm to filter agents. Always visible — great for navigating between the 7 teams quickly.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="dashboard-sections" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;border-radius:6px;overflow:hidden;font-family:system-ui">
+      <!-- Minimal header -->
+      <div style="background:#fff;border-bottom:1px solid #e2e8f0;padding:8px 14px;display:flex;align-items:center;gap:12px">
+        <div style="font-size:11px;font-weight:700;color:#0f172a">OpenClaw</div>
+        <div style="background:#f0fdf4;border-radius:10px;padding:2px 8px;font-size:9px;color:#16a34a">● 35 agents online</div>
+      </div>
+      <!-- Sections stacked vertically -->
+      <div style="padding:8px 12px;display:flex;flex-direction:column;gap:6px">
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px">
+          <div style="font-size:9px;font-weight:600;color:#64748b;margin-bottom:4px">KPIs</div>
+          <div style="display:flex;gap:8px">
+            <span style="font-size:9px;color:#0f172a">3 active · $0.19 · 47 calls</span>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px">
+          <div style="font-size:9px;font-weight:600;color:#64748b;margin-bottom:4px">All Agents — 35 total</div>
+          <div style="display:flex;flex-wrap:wrap;gap:3px">
+            <span style="background:#eef2ff;border-radius:3px;padding:2px 5px;font-size:8px;color:#6366f1">bi</span>
+            <span style="background:#f0fdf4;border-radius:3px;padding:2px 5px;font-size:8px;color:#16a34a">qa</span>
+            <span style="background:#fef9c3;border-radius:3px;padding:2px 5px;font-size:8px;color:#b45309">devops</span>
+          </div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:8px">
+          <div style="font-size:9px;font-weight:600;color:#64748b">Workflow Board</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Single-Page Sections</h3>
+      <p>One long scrollable page. Sections stack: KPIs → All 35 Agents → Workflow Board → History. Simple, no navigation needed. Everything visible at once.</p>
+    </div>
+  </div>
+
+</div>
