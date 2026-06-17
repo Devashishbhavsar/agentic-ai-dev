@@ -35,7 +35,7 @@ export function StatusBar() {
   }, []);
 
   const pill = (label, state) => {
-    const cls = state === "ok" ? "pill--ok" : state === "warn" ? "pill--warn" : "pill--neutral";
+    const cls = state === "ok" ? "pill--ok" : state === "error" ? "pill--error" : state === "warn" ? "pill--warn" : "pill--neutral";
     const dot = state === "ok" ? "● " : state === "error" ? "✗ " : "○ ";
     return h("span", { key: label, className: `pill ${cls}`, title: label }, dot + label);
   };
