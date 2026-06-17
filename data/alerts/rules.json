@@ -1,0 +1,65 @@
+[
+  {
+    "id": "59e6846b-077c-4187-b98a-90fa70bec0a5",
+    "label": "Daily cost > $1.00",
+    "metric": "total_cost_usd",
+    "operator": "gt",
+    "threshold": 1.0,
+    "channel": "both",
+    "enabled": false
+  },
+  {
+    "id": "e8a1c139-6e79-45e4-bed5-211549be72ea",
+    "label": "Avg latency > 10s",
+    "metric": "avg_latency_ms",
+    "operator": "gt",
+    "threshold": 10000,
+    "channel": "banner",
+    "enabled": false
+  },
+  {
+    "id": "e8a893d6-a68d-4db6-b6c0-2024dfaa2dc8",
+    "label": "Agent failures > 3/hour",
+    "metric": "agent_failure_count",
+    "operator": "gt",
+    "threshold": 3,
+    "channel": "both",
+    "enabled": false
+  },
+  {
+    "id": "b5eb85e7-ce47-4900-aea7-074148e4e3aa",
+    "label": "OpenRouter spend > $2.00",
+    "metric": "total_cost_usd",
+    "operator": "gt",
+    "threshold": 2.0,
+    "channel": "discord",
+    "enabled": false
+  },
+  {
+    "id": "f0863bba-7901-4cb7-832a-5bdbc47e2021",
+    "label": "Service stopped",
+    "metric": "service_down",
+    "operator": "eq",
+    "threshold": 1,
+    "channel": "both",
+    "enabled": false
+  },
+  {
+    "id": "e90db34a-914d-4d0d-8133-37c13257ba52",
+    "label": "Test alert",
+    "metric": "total_cost_usd",
+    "operator": "gt",
+    "threshold": 2.0,
+    "channel": "banner",
+    "enabled": true
+  },
+  {
+    "id": "3b1e643b-4ab8-4444-9ce5-8bddfbdc1dbb",
+    "label": "Test alert",
+    "metric": "total_cost_usd",
+    "operator": "gt",
+    "threshold": 2.0,
+    "channel": "banner",
+    "enabled": true
+  }
+]
