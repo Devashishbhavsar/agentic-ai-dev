@@ -1,6 +1,7 @@
 """Agent roster and config override endpoints."""
 from __future__ import annotations
 import json
+import logging
 import os
 from pathlib import Path
 from typing import Any
@@ -10,8 +11,16 @@ from pydantic import BaseModel
 router = APIRouter(prefix="/v1/agents", tags=["agents"])
 
 AGENTS_DIR = Path(__file__).parents[2] / "agents"
-CONFIG_DIR = Path(os.environ.get("AGENT_CONFIG_DIR",
-                  str(Path(__file__).parents[2] / "data" / "agents")))
+
+_log = logging.getLogger(__name__)
+
+
+def _config_dir() -> Path:
+    """Return the config directory, re-reading env var each call."""
+    return Path(os.environ.get(
+        "AGENT_CONFIG_DIR",
+        str(Path(__file__).parents[2] / "data" / "agents")
+    ))
 
 SWARM_COLOURS = {
     "bi": "#6366f1", "qa": "#f59e0b", "devops": "#10b981",
@@ -44,10 +53,7 @@ def _agent_swarm(name: str) -> str | None:
 
 
 def _load_override(name: str) -> dict[str, Any]:
-    cfg_dir = Path(os.environ.get("AGENT_CONFIG_DIR",
-                   str(Path(__file__).parents[2] / "data" / "agents")))
-    cfg_dir.mkdir(parents=True, exist_ok=True)
-    path = cfg_dir / f"{name}.json"
+    path = _config_dir() / f"{name}.json"
     if path.exists():
         return json.loads(path.read_text())
     return {}
@@ -86,16 +92,9 @@ def get_agent(name: str):
     try:
         from core.runtime import get_runtime_monitor
         rm = get_runtime_monitor()
-        calls = [c for c in rm._model_calls if c.agent_name == name]
-        if calls:
-            stats["total_runs"] = len(calls)
-            stats["avg_latency_ms"] = round(
-                sum(c.latency_ms for c in calls) / len(calls), 1)
-            stats["total_cost_usd"] = round(sum(c.cost_usd for c in calls), 6)
-            last = max(calls, key=lambda c: c.timestamp)
-            stats["last_active"] = last.timestamp
+        stats = rm.get_agent_stats(name)
     except Exception:
-        pass
+        _log.warning("Failed to load runtime stats for %s", name, exc_info=True)
     return {
         "name": name,
         "swarm": swarm,
@@ -109,8 +108,7 @@ def get_agent(name: str):
 def update_agent_config(name: str, payload: AgentConfigPayload):
     if _agent_swarm(name) is None:
         raise HTTPException(status_code=404, detail=f"Agent {name!r} not found")
-    cfg_dir = Path(os.environ.get("AGENT_CONFIG_DIR",
-                   str(Path(__file__).parents[2] / "data" / "agents")))
+    cfg_dir = _config_dir()
     cfg_dir.mkdir(parents=True, exist_ok=True)
     path = cfg_dir / f"{name}.json"
     current = _load_override(name)

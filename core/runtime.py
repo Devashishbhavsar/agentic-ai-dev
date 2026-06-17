@@ -742,6 +742,20 @@ class RuntimeMonitor:
                 run.updated_at = event.timestamp
         self._notify("model_call", payload)
 
+    def get_agent_stats(self, agent_name: str) -> dict:
+        """Return aggregated stats for a named agent, thread-safe."""
+        with self._lock:
+            calls = [c for c in self._model_calls if c.agent_name == agent_name]
+        if not calls:
+            return {"total_runs": 0, "avg_latency_ms": 0,
+                    "total_cost_usd": 0.0, "last_active": None}
+        return {
+            "total_runs": len(calls),
+            "avg_latency_ms": round(sum(c.latency_ms for c in calls) / len(calls), 1),
+            "total_cost_usd": round(sum(c.cost_usd for c in calls), 6),
+            "last_active": max(c.timestamp for c in calls),
+        }
+
     def snapshot(self) -> dict[str, Any]:
         with self._lock:
             return self._snapshot_locked()
