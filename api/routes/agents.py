@@ -86,12 +86,14 @@ def get_agent(name: str):
     try:
         from core.runtime import get_runtime_monitor
         rm = get_runtime_monitor()
-        calls = [c for c in rm.model_calls if c.agent == name]
+        calls = [c for c in rm._model_calls if c.agent_name == name]
         if calls:
             stats["total_runs"] = len(calls)
             stats["avg_latency_ms"] = round(
                 sum(c.latency_ms for c in calls) / len(calls), 1)
             stats["total_cost_usd"] = round(sum(c.cost_usd for c in calls), 6)
+            last = max(calls, key=lambda c: c.timestamp)
+            stats["last_active"] = last.timestamp.isoformat()
     except Exception:
         pass
     return {
