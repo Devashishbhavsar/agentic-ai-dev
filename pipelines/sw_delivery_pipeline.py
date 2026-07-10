@@ -31,6 +31,7 @@ from core.external.claw_code import merge_file_entries, ClawCodeAdapter
 from core.gates import SECURITY_RISK_PASS_THRESHOLD, effective_risk_score, security_scan_passed
 
 WORKFLOW_OUTPUT_DIR = Path(__file__).resolve().parents[1] / "generated" / "workflows"
+PROJECT_OUTPUT_DIR = Path(__file__).resolve().parents[1] / "projects"
 
 RUNNABLE_BUNDLE_PATHS = (
     "project/deploy/docker-compose.yml",
@@ -635,6 +636,16 @@ class SWDeliveryPipeline:
     def _workflow_output_dir(self) -> Path:
         return WORKFLOW_OUTPUT_DIR / self._wf_id
 
+    def _project_slug(self, user_request: str) -> str:
+        """Derive a short filesystem-safe project name from the user request."""
+        import re as _re
+        slug = _re.sub(r'[^a-z0-9]+', '-', user_request.lower().strip())[:40].strip('-')
+        return slug or f'project-{self._wf_id[:8]}'
+
+    def _project_dir(self, user_request: str) -> Path:
+        """Return the dedicated project output directory (projects/<slug>/)."""
+        return PROJECT_OUTPUT_DIR / self._project_slug(user_request)
+
     def _write_text(self, base_dir: Path, relative_path: str, content: str) -> str:
         sanitized = relative_path.strip().lstrip('/').replace('..', '_')
         target = (base_dir / sanitized).resolve()
@@ -642,8 +653,7 @@ class SWDeliveryPipeline:
             raise ValueError(f'Unsafe artifact path: {relative_path}')
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(content, encoding='utf-8')
-        bundle_root = (self._workflow_output_dir() / 'bundle').resolve()
-        return str(target.relative_to(bundle_root))
+        return str(target.relative_to(base_dir.resolve()))
 
     def _persist_generated_files(self, base_dir: Path, files: list[Any]) -> list[str]:
         saved: list[str] = []
@@ -669,9 +679,14 @@ class SWDeliveryPipeline:
         return saved
 
     def _persist_workflow_bundle(self, user_request: str, intent: dict, result: SWDeliveryResult) -> dict[str, Any]:
-        output_dir = self._workflow_output_dir()
-        bundle_dir = output_dir / 'bundle'
+        # Write into a proper, standalone project folder
+        bundle_dir = self._project_dir(user_request)
         bundle_dir.mkdir(parents=True, exist_ok=True)
+        # Also keep a symlink/reference under the workflow output dir for API browsing
+        wf_dir = self._workflow_output_dir()
+        wf_dir.mkdir(parents=True, exist_ok=True)
+        ref_file = wf_dir / 'project_dir.txt'
+        ref_file.write_text(str(bundle_dir), encoding='utf-8')
 
         saved_files: list[str] = []
         saved_files.extend(self._persist_named_blobs(bundle_dir, [
@@ -764,72 +779,157 @@ class SWDeliveryPipeline:
             'request': user_request,
             'status': result.status,
             'approval_required': result.approval_required,
-            'bundle_dir': str(bundle_dir),
+            'project_dir': str(bundle_dir),
             'saved_files': sorted(saved_files),
             'files_count': len(saved_files),
             'browse_url': f'/v1/workflows/{self._wf_id}/artifacts',
             'download_base_url': f'/v1/workflows/{self._wf_id}/artifacts/files/',
+            # GitHub repo is NOT created automatically.
+            # Call bind_github_repo() after asking the user.
+            'repo_binding_required': True,
+            'github_repo': None,
         }
         self._write_text(bundle_dir, 'manifest.json', json.dumps(manifest, indent=2, default=str))
-        self._publish_to_github(bundle_dir, user_request)
         return manifest
 
-    def _publish_to_github(self, bundle_dir: Path, user_request: str) -> None:
-        """Create new GitHub repository and push the generated code there using PAT."""
+    def bind_github_repo(
+        self,
+        project_dir: str | Path,
+        repo_choice: dict,
+    ) -> dict:
+        """
+        Bind the generated project folder to a GitHub repository.
+
+        Called ONLY after the user has been asked what they want to do.
+        Never called automatically by the pipeline.
+
+        Parameters
+        ----------
+        project_dir:
+            Absolute path to the project folder on disk (returned in the
+            manifest as ``project_dir``).
+        repo_choice:
+            One of:
+            - ``{"action": "create", "name": "my-repo", "private": True}``
+              → creates a brand-new repo on the authenticated GitHub account.
+            - ``{"action": "bind", "url": "https://github.com/user/existing-repo"}``
+              → pushes to an existing repo (the caller must have push rights).
+
+        Returns
+        -------
+        dict with keys:
+            - ``success``: bool
+            - ``repo_url``: str | None
+            - ``error``: str | None
+        """
         import os
         import httpx
-        import subprocess
 
+        project_dir = Path(project_dir)
         token = os.environ.get("GITHUB_PERSONAL_ACCESS_TOKEN")
         if not token:
-            return
+            return {"success": False, "repo_url": None, "error": "GITHUB_PERSONAL_ACCESS_TOKEN not set in .env"}
+
+        headers = {
+            "Authorization": f"token {token}",
+            "Accept": "application/vnd.github.v3+json",
+        }
 
         try:
-            # 1. Fetch authenticated user details to obtain username
-            headers = {
-                "Authorization": f"token {token}",
-                "Accept": "application/vnd.github.v3+json",
-            }
-            user_resp = httpx.get("https://api.github.com/user", headers=headers, timeout=10.0)
-            if user_resp.status_code != 200:
-                return
-            username = user_resp.json().get("login")
-            if not username:
-                return
+            action = repo_choice.get("action")
 
-            # 2. Create the remote repository on GitHub
-            repo_name = f"project-{self._wf_id}"
-            repo_data = {
-                "name": repo_name,
-                "description": f"Automatically generated project workflow bundle for request: {user_request[:100]}",
-                "private": True,
-            }
-            create_resp = httpx.post(
-                "https://api.github.com/user/repos",
-                headers=headers,
-                json=repo_data,
-                timeout=15.0
+            if action == "create":
+                # Look up authenticated username
+                user_resp = httpx.get("https://api.github.com/user", headers=headers, timeout=10.0)
+                if user_resp.status_code != 200:
+                    return {"success": False, "repo_url": None, "error": f"GitHub auth failed: {user_resp.status_code}"}
+                username = user_resp.json().get("login")
+                repo_name = repo_choice.get("name") or project_dir.name
+                is_private = bool(repo_choice.get("private", True))
+
+                create_resp = httpx.post(
+                    "https://api.github.com/user/repos",
+                    headers=headers,
+                    json={
+                        "name": repo_name,
+                        "description": f"Generated project: {project_dir.name}",
+                        "private": is_private,
+                        "auto_init": False,
+                    },
+                    timeout=15.0,
+                )
+                if create_resp.status_code == 422:
+                    # Repo already exists — treat as bind
+                    remote_url = f"https://oauth2:{token}@github.com/{username}/{repo_name}.git"
+                elif create_resp.status_code == 201:
+                    remote_url = f"https://oauth2:{token}@github.com/{username}/{repo_name}.git"
+                else:
+                    return {"success": False, "repo_url": None, "error": f"Create repo failed: {create_resp.status_code} {create_resp.text[:200]}"}
+
+                public_url = f"https://github.com/{username}/{repo_name}"
+
+            elif action == "bind":
+                repo_url = repo_choice.get("url", "").rstrip("/")
+                if not repo_url:
+                    return {"success": False, "repo_url": None, "error": "'url' is required for action=bind"}
+                # Inject token into HTTPS URL
+                if repo_url.startswith("https://github.com/"):
+                    remote_url = repo_url.replace("https://github.com/", f"https://oauth2:{token}@github.com/")
+                else:
+                    remote_url = repo_url
+                public_url = repo_url
+
+            else:
+                return {"success": False, "repo_url": None, "error": f"Unknown action '{action}'. Use 'create' or 'bind'."}
+
+            # --- git operations ---
+            def _git(*args: str) -> None:
+                subprocess.run(
+                    ["git", *args],
+                    cwd=str(project_dir),
+                    capture_output=True,
+                    check=True,
+                )
+
+            git_dir = project_dir / ".git"
+            if not git_dir.exists():
+                _git("init")
+                _git("config", "user.name", "Enterprise Agent")
+                _git("config", "user.email", "agent@enterprise.local")
+
+            _git("add", ".")
+            # Commit only if there are staged changes
+            status = subprocess.run(
+                ["git", "status", "--porcelain"],
+                cwd=str(project_dir),
+                capture_output=True,
+                text=True,
             )
-            if create_resp.status_code not in (201, 422):
-                return
+            if status.stdout.strip():
+                _git("commit", "-m", "Initial commit — generated by Enterprise Agent")
 
-            # 3. Initialize git and configure user details locally
-            subprocess.run(["git", "init"], cwd=str(bundle_dir), capture_output=True, check=True)
-            subprocess.run(["git", "config", "user.name", "Enterprise Agent"], cwd=str(bundle_dir), capture_output=True, check=True)
-            subprocess.run(["git", "config", "user.email", "agent@enterprise.local"], cwd=str(bundle_dir), capture_output=True, check=True)
-            
-            # 4. Stage and commit files
-            subprocess.run(["git", "add", "."], cwd=str(bundle_dir), capture_output=True, check=True)
-            subprocess.run(["git", "commit", "-m", "Initial commit from Enterprise Agent"], cwd=str(bundle_dir), capture_output=True, check=True)
-            subprocess.run(["git", "branch", "-M", "main"], cwd=str(bundle_dir), capture_output=True, check=True)
+            _git("branch", "-M", "main")
 
-            # 5. Link origin remote and push to main
-            remote_url = f"https://oauth2:{token}@github.com/{username}/{repo_name}.git"
-            subprocess.run(["git", "remote", "add", "origin", remote_url], cwd=str(bundle_dir), capture_output=True, check=True)
-            subprocess.run(["git", "push", "-u", "origin", "main"], cwd=str(bundle_dir), capture_output=True, check=True)
+            # Remove existing origin if present
+            existing_remote = subprocess.run(
+                ["git", "remote"],
+                cwd=str(project_dir),
+                capture_output=True,
+                text=True,
+            )
+            if "origin" in existing_remote.stdout.split():
+                _git("remote", "remove", "origin")
 
-        except Exception:
-            pass
+            _git("remote", "add", "origin", remote_url)
+            _git("push", "-u", "origin", "main", "--force")
+
+            return {"success": True, "repo_url": public_url, "error": None}
+
+        except subprocess.CalledProcessError as exc:
+            stderr = exc.stderr.decode(errors='replace') if exc.stderr else str(exc)
+            return {"success": False, "repo_url": None, "error": f"git error: {stderr[:300]}"}
+        except Exception as exc:
+            return {"success": False, "repo_url": None, "error": str(exc)[:300]}
 
     def _docker_artifacts_on_disk(self, bundle_dir: Path) -> bool:
         compose = bundle_dir / 'project' / 'deploy' / 'docker-compose.yml'
@@ -1187,11 +1287,11 @@ class SWDeliveryPipeline:
         }
         self._mark_progress("10_monitor", current_agent="verification")
         bundle_manifest = self._persist_workflow_bundle(user_request, intent, result)
-        gate_report = self._evaluate_delivery_gates(result, Path(bundle_manifest['bundle_dir']))
+        gate_report = self._evaluate_delivery_gates(result, Path(bundle_manifest['project_dir']))
         result.step_results['11_delivery_gates'] = gate_report
         bundle_manifest['delivery_gates'] = gate_report
         self._write_text(
-            Path(bundle_manifest['bundle_dir']),
+            Path(bundle_manifest['project_dir']),
             'manifest.json',
             json.dumps(bundle_manifest, indent=2, default=str),
         )
@@ -1213,7 +1313,7 @@ class SWDeliveryPipeline:
         bundle_manifest['status'] = result.status
         bundle_manifest['approval_required'] = result.approval_required
         self._write_text(
-            Path(bundle_manifest['bundle_dir']),
+            Path(bundle_manifest['project_dir']),
             'manifest.json',
             json.dumps(bundle_manifest, indent=2, default=str),
         )
